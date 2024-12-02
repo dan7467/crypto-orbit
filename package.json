@@ -1,8 +1,8 @@
 {
   "name": "crypto-orbit",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "basic socket practice project with nestjs, typescript",
+  "author": "DanBD",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -12,6 +12,7 @@
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
+    "build:start": "nest build | nest start",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
     "test:watch": "jest --watch",
