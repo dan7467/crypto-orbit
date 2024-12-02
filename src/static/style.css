@@ -1,0 +1,39 @@
+@font-face {
+    font-family: 'bt_bold';
+    src: url('/static/BalooTamma2-Bold.eot'); /* IE9 Compat Modes */
+    src: url('/static/BalooTamma2-Bold.woff') format('woff'), /* Modern Browsers */
+         url('/static/BalooTamma2-Bold.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'bt_reg';
+    src: url('/static/BalooTamma2-Regular.eot'); /* IE9 Compat Modes */
+    src: url('/static/BalooTamma2-Regular.woff') format('woff'), /* Modern Browsers */
+         url('/static/BalooTamma2-Regular.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+@font-face {
+    font-family: 'bt_sem_bold';
+    src: url('/static/BalooTamma2-SemiBold.eot'); /* IE9 Compat Modes */
+    src: url('/static/BalooTamma2-SemiBold.woff') format('woff'), /* Modern Browsers */
+         url('/static/BalooTamma2-SemiBold.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+.semi_bolded {
+    font-family: bt_sem_bold;
+}
+
+.bolded {
+    font-family: bt_bold;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+.price {
+    font-size: 24px;
+    margin: 10px 0;
+}

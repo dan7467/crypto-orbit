@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Prices</title>
+    <style>
+    </style>
+</head>
+<body>
+    <h1><b>Live</b> Crypto Prices in real time:</h1>
+    <div id="bitcoin" class="price">Bitcoin: <span id="bitcoin-price">Loading...</span></div>
+    <div id="ethereum" class="price">Ethereum: <span id="ethereum-price">Loading...</span></div>
+    <div id="monero" class="price">Monero: <span id="monero-price">Loading...</span></div>
+    <div id="litecoin" class="price">Litecoin: <span id="litecoin-price">Loading...</span></div>
+    <div id="tether" class="price">Tether: <span id="tether-price">Loading...</span></div>
+    <div id="cardano" class="price">Cardano: <span id="cardano-price">Loading...</span></div>
+    <div id="uniswap" class="price">Uniswap: <span id="uniswap-price">Loading...</span></div>
+
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:3000');
+        socket.on('prices', (prices) => {
+            if (prices.bitcoin) {
+                document.getElementById('bitcoin-price').textContent = '$' + parseFloat(prices.bitcoin).toFixed(2);
+            }
+            if (prices.ethereum) {
+                document.getElementById('ethereum-price').textContent = '$' + parseFloat(prices.ethereum).toFixed(2);
+            }
+            if (prices.monero) {
+                document.getElementById('monero-price').textContent = '$' + parseFloat(prices.monero).toFixed(2);
+            }
+            if (prices.litecoin) {
+                document.getElementById('litecoin-price').textContent = '$' + parseFloat(prices.litecoin).toFixed(2);
+            }
+            if (prices.solana) {
+                document.getElementById('solana-price').textContent = '$' + parseFloat(prices.solana).toFixed(2);
+            }
+            if (prices.tether) {
+                document.getElementById('tether-price').textContent = '$' + parseFloat(prices.tether).toFixed(2);
+            }
+            if (prices.cardano) {
+                document.getElementById('cardano-price').textContent = '$' + parseFloat(prices.cardano).toFixed(2);
+            }
+            if (prices.cardano) {
+                document.getElementById('uniswap-price').textContent = '$' + parseFloat(prices.uniswap).toFixed(2);
+            }
+        });
+    </script>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</body>
+</html>
