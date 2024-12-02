@@ -31,6 +31,8 @@ body {
     font-family: bt_reg;
     text-align: center;
     padding: 20px;
+    background-color: #525CEB;
+    color: #F8EDFF;
 }
 
 .price {

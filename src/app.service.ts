@@ -10,4 +10,9 @@ export class AppService {
   postTest(): string {
     return 'sent POST req';
   }
+
+  testValidatedClass(): string {
+    return 'received param is OK!';
+  }
+  
 }
