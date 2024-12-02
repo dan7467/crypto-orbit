@@ -7,7 +7,7 @@ import { WebSocket } from 'ws';
 export class CryptoGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer() server: Server;
     private readonly logger = new Logger(CryptoGateway.name);
-    private readonly coinCapSocketUrl = 'wss://ws.coincap.io/prices?assets=bitcoin,ethereum,monero,litecoin,solana,tether,cardano,uniswap';
+    private readonly coinCapSocketUrl = 'wss://ws.coincap.io/prices?assets=bitcoin,ethereum,monero,litecoin,solana,tether,cardano';
     private coinCapSocket: WebSocket;
 
     afterInit() {

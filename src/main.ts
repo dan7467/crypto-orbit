@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
+import { NestApplication, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'path';
 import { Request, Response } from "express";
+import { NestFactoryStatic } from '@nestjs/core/nest-factory';
 
 async function bootstrap() {
 
@@ -10,7 +11,7 @@ async function bootstrap() {
 
     app.enableCors();
 
-    app.useStaticAssets(join(__dirname, '..', 'static'));
+    app.useStaticAssets(join(__dirname, '..', 'src', 'static'));
 
     app.getHttpAdapter().get('/', (req: Request, res: Response) => {
         res.sendFile(join(__dirname, '..', 'src', 'static', 'index.html'));

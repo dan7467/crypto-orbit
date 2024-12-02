@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Crypto Prices</title>
-    <style>
-    </style>
 </head>
 <body>
-    <h1><b>Live</b> Crypto Prices in real time:</h1>
+    <h1 class="semi_bolded"><b>Live</b> Crypto Prices in real time:</h1>
     <div id="bitcoin" class="price">Bitcoin: <span id="bitcoin-price">Loading...</span></div>
     <div id="ethereum" class="price">Ethereum: <span id="ethereum-price">Loading...</span></div>
     <div id="monero" class="price">Monero: <span id="monero-price">Loading...</span></div>
     <div id="litecoin" class="price">Litecoin: <span id="litecoin-price">Loading...</span></div>
     <div id="tether" class="price">Tether: <span id="tether-price">Loading...</span></div>
     <div id="cardano" class="price">Cardano: <span id="cardano-price">Loading...</span></div>
-    <div id="uniswap" class="price">Uniswap: <span id="uniswap-price">Loading...</span></div>
 
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
@@ -41,9 +39,6 @@
             }
             if (prices.cardano) {
                 document.getElementById('cardano-price').textContent = '$' + parseFloat(prices.cardano).toFixed(2);
-            }
-            if (prices.cardano) {
-                document.getElementById('uniswap-price').textContent = '$' + parseFloat(prices.uniswap).toFixed(2);
             }
         });
     </script>
