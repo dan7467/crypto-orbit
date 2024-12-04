@@ -19,6 +19,12 @@
          url('/fonts/BalooTamma2-SemiBold.ttf') format('truetype') /* Safari, Android, iOS */
 }
 
+:root {
+    --bg: #4B4376;
+    --navbar: #432E54; 
+    --text: #E8BCB9;
+}
+
 .semi_bolded {
     font-family: bt_sem_bold;
 }
@@ -30,12 +36,46 @@
 body {
     font-family: bt_reg;
     text-align: center;
-    padding: 20px;
-    background-color: #525CEB;
-    color: #F8EDFF;
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg);
+    color: var(--text);
 }
 
 .price {
     font-size: 24px;
     margin: 10px 0;
+}
+
+.content {
+    padding: 20px;
+    text-align: center;
+}
+
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    display: block;
+}
+
+.navbar a:hover {
+    background-color: #575757;
+    transition-duration: 0.7s;
+}
+.navbar a:active {
+    background-color: #767676;
+    transition-duration: 0.3s;
+}
+
+.navbar .brand {
+    font-weight: bold;
+    font-size: 1.2em;
 }
