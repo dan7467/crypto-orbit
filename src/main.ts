@@ -24,6 +24,10 @@ async function bootstrap() {
     app.getHttpAdapter().get('/prices', (req: Request, res: Response) => {
         res.sendFile(join(__dirname, '..', 'src', 'static', 'prices.html'));
     });
+    
+    app.getHttpAdapter().get('/btc', (req: Request, res: Response) => {
+        res.sendFile(join(__dirname, '..', 'src', 'static', 'btc.html'));
+    });
 
     await app.listen(port);
 

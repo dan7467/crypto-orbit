@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Crypto Prices</title>
+    <script src=
+"https://cdn.jsdelivr.net/npm/chart.js">
+	</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.umd.js"></script>
+</head>
+
+<div class="navbar">
+    <div class="brand"><br/>&emsp;CryptoOrbit</div>
+    <div>
+        <a href="/">Home</a>
+        <a href="/prices">Prices</a>
+    </div>
+</div>
+
+<body>
+
+
+    <div id="bitcoin" class="price">Bitcoin = <span id="bitcoin-price">Loading...</span></div>
+
+    <canvas id="barChart" width="700" height="250"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    
+    <script>
+        const socket = io('http://localhost:3000');
+        const coin_name = 'bitcoin';
+        const data = [];
+        const maxDataPoints = 150; // Max points shown on the graph at any time
+        let lastPrice = null;
+        let curr_color = "#66ff33";
+    
+        document.addEventListener("DOMContentLoaded", function () {
+            // Setup Chart.js
+            let ctx = document.getElementById('barChart').getContext('2d');
+            
+            const config = {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Bitcoin Price ($)',
+                        borderWidth: 2,
+                        radius: 0,
+                        data: data,
+                        segment: {
+                        borderColor: (ctx) => {
+                            return ctx.p1.parsed.y > ctx.p0.parsed.y ? '#66ff33' : '#ff1a1a';
+                        }
+                    }
+                    }]
+                },
+                options: {
+                    animation: true, // Disable animations for real-time updates
+                    interaction: {
+                        intersect: false
+                    },
+                    scales: {
+                        x: {
+                            type: 'time', // Use time scale for X-axis
+                            time: {
+                                unit: 'second', // Format by seconds
+                                displayFormats: {
+                                    second: 'HH:mm:ss' // Format as HH:MM:SS:MS
+                                }
+                            },
+                            title: { display: true, text: 'Time (HH:mm:ss)' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Price ($)'
+                            },
+                            beginAtZero: false,
+                        }
+                    }
+                }
+            };
+    
+            let myChart = new Chart(ctx, config);
+    
+            socket.on('prices', (prices) => {
+                if (coin_name in prices) {
+                    const price = parseFloat(prices[coin_name]).toFixed(2);
+    
+                    const priceElement = document.getElementById(coin_name + '-price');
+                    priceElement.textContent = `$${price}`;
+    
+                    const currentTime = new Date().getTime() / 1000;
+                    data.push({ x: currentTime, y: parseFloat(price) });
+
+                    if (lastPrice !== null) {
+                        curr_color = price > lastPrice ? '#66ff33' : '#ff1a1a';
+                        config.data.datasets[0].borderColor = curr_color;
+                        priceElement.style.color = curr_color;
+                    }
+                    lastPrice = price; // Update the last known price
+    
+                    if (data.length > maxDataPoints) {
+                        data.shift();
+                    }
+    
+                    // Update the chart
+                    myChart.update();
+                }
+            });
+        });
+    </script>
+    
+
+
+</body>
+</html>
