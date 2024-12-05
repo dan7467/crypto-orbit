@@ -26,10 +26,17 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
         const socket = io('http://localhost:3000');
+        const coin_initialized = {};
         socket.on('prices', (prices) => {
-            // console.log(prices); // {bitcoin: '99262.85', ethereum: '3842.58'}
             for (let price in prices) {
+                if (coin_initialized[price] && document.getElementById(price+'-price').textContent.substring(1) < prices[price]) {
+                    document.getElementById(price+'-price').style = 'color: #66ff33;';
+                }
+                else {
+                    document.getElementById(price+'-price').style = 'color: #ff1a1a;';
+                }
                 document.getElementById(price+'-price').textContent = '$' + parseFloat(prices[price]).toFixed(2);
+                coin_initialized[price] = true;
             }
         });
     </script>
