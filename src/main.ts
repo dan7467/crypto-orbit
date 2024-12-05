@@ -11,6 +11,8 @@ async function bootstrap() {
 
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+    const port = 3000;
+
     app.enableCors();
 
     app.useStaticAssets(join(__dirname, '..', 'src', 'static'));
@@ -23,9 +25,9 @@ async function bootstrap() {
         res.sendFile(join(__dirname, '..', 'src', 'static', 'prices.html'));
     });
 
-    await app.listen(3000);
+    await app.listen(port);
 
-    console.log('\n# Server started\n');
+    console.log('\n# Server started on port',port,':\nhttp://localhost:'+port+'\n');
 }
 
 bootstrap();

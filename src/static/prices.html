@@ -16,5 +16,22 @@
 </div>
 
 <body>
+    <h1 class="semi_bolded"><u>Live Crypto Prices in real time:</u></h1>
+    <div id="bitcoin" class="price">Bitcoin: <span id="bitcoin-price">Loading...</span></div>
+    <div id="ethereum" class="price">Ethereum: <span id="ethereum-price">Loading...</span></div>
+    <div id="monero" class="price">Monero: <span id="monero-price">Loading...</span></div>
+    <div id="litecoin" class="price">Litecoin: <span id="litecoin-price">Loading...</span></div>
+    <div id="tether" class="price">Tether: <span id="tether-price">Loading...</span></div>
+    <div id="cardano" class="price">Cardano: <span id="cardano-price">Loading...</span></div>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script>
+        const socket = io('http://localhost:3000');
+        socket.on('prices', (prices) => {
+            // console.log(prices); // {bitcoin: '99262.85', ethereum: '3842.58'}
+            for (let price in prices) {
+                document.getElementById(price+'-price').textContent = '$' + parseFloat(prices[price]).toFixed(2);
+            }
+        });
+    </script>
 </body>
 </html>
