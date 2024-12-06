@@ -28,6 +28,10 @@ async function bootstrap() {
     app.getHttpAdapter().get('/btc', (req: Request, res: Response) => {
         res.sendFile(join(__dirname, '..', 'src', 'static', 'btc.html'));
     });
+    
+    app.getHttpAdapter().get('/ethereum', (req: Request, res: Response) => {
+        res.sendFile(join(__dirname, '..', 'src', 'static', 'ethereum.html'));
+    });
 
     await app.listen(port);
 

@@ -23,7 +23,7 @@
 <body>
 
 
-    <div id="bitcoin" class="price" style="font-size: 34px;">Bitcoin = <span id="bitcoin-price">Loading...</span></div>
+    <div id="ethereum" class="price" style="font-size: 34px;">Ethereum = <span id="ethereum-price">Loading...</span></div>
 
     <canvas id="barChart" width="700" height="250"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -36,7 +36,7 @@
         // TO-DO: Generify this whole page to apply to every coin: receive 'coin_name' as a parameter and have generic URL
 
         const socket = io('http://localhost:3000');
-        const coin_name = 'bitcoin';
+        const coin_name = 'ethereum';
         const data = [];
         const max_graph_len = 150;
 
@@ -69,7 +69,7 @@
                 type: 'line',
                 data: {
                     datasets: [{
-                        label: 'Bitcoin Price ($)',
+                        label: coin_name.charAt(0).toUpperCase()+coin_name.substring(1)+' Price ($)',
                         borderWidth: 2,
                         radius: 0,
                         data: data,
