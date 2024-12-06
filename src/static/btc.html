@@ -95,7 +95,7 @@
                     const price = parseFloat(prices[coin_name]).toFixed(2);
                     coin_initialized[coin_name] = true;
     
-                    document.getElementById(coin_name + '-price').textContent = `${price.toLocaleString("en-US")} $ (USD)`;
+                    document.getElementById(coin_name + '-price').textContent = `${Number(price).toLocaleString("en-US")} $ (USD)`;
 
                     // TO-DO: fix timestamp, it's wrong
                     data.push({ x: new Date().getTime() / 1000, y: parseFloat(price) });
