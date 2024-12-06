@@ -35,7 +35,7 @@
                 else {
                     document.getElementById(price+'-price').style = 'color: #ff1a1a;';
                 }
-                document.getElementById(price+'-price').textContent = '$' + parseFloat(prices[price]).toFixed(2);
+                document.getElementById(price+'-price').textContent =  Number(parseFloat(prices[price]).toFixed(2)).toLocaleString("en-US") + ' $ (USD)' ;
                 coin_initialized[price] = true;
             }
         });
