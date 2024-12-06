@@ -23,21 +23,23 @@
 <body>
 
 
-    <div id="bitcoin" class="price">Bitcoin = <span id="bitcoin-price">Loading...</span></div>
+    <div id="bitcoin" class="price" style="font-size: 34px;">Bitcoin = <span id="bitcoin-price">Loading...</span></div>
 
     <canvas id="barChart" width="700" height="250"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon"></script>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+
+    <input id="last_price" type="hidden" value="0"></input>
     
     <script>
         const socket = io('http://localhost:3000');
         const coin_name = 'bitcoin';
         const data = [];
         const maxDataPoints = 150; // Max points shown on the graph at any time
-        let lastPrice = null;
-        let curr_color = "#66ff33";
+        const coin_initialized = {};
+        let lastPrice = document.getElementById('last_price');
     
         document.addEventListener("DOMContentLoaded", function () {
             // Setup Chart.js
@@ -63,6 +65,7 @@
                     interaction: {
                         intersect: false
                     },
+                    plugins: { legend: {display: false} },
                     scales: {
                         x: {
                             type: 'time', // Use time scale for X-axis
@@ -85,31 +88,31 @@
                 }
             };
     
-            let myChart = new Chart(ctx, config);
+            let priceChart = new Chart(ctx, config);
     
             socket.on('prices', (prices) => {
                 if (coin_name in prices) {
                     const price = parseFloat(prices[coin_name]).toFixed(2);
+                    coin_initialized[coin_name] = true;
     
-                    const priceElement = document.getElementById(coin_name + '-price');
-                    priceElement.textContent = `$${price}`;
-    
-                    const currentTime = new Date().getTime() / 1000;
-                    data.push({ x: currentTime, y: parseFloat(price) });
+                    document.getElementById(coin_name + '-price').textContent = `${price.toLocaleString("en-US")} $ (USD)`;
 
-                    if (lastPrice !== null) {
-                        curr_color = price > lastPrice ? '#66ff33' : '#ff1a1a';
-                        config.data.datasets[0].borderColor = curr_color;
-                        priceElement.style.color = curr_color;
+                    // TO-DO: fix timestamp, it's wrong
+                    data.push({ x: new Date().getTime() / 1000, y: parseFloat(price) });
+
+                    if (lastPrice.value !== '0') {
+                        config.data.datasets[0].borderColor = price > lastPrice ? '#66ff33' : '#ff1a1a';
                     }
-                    lastPrice = price; // Update the last known price
+
+                    // TO-DO: add price color-changing (not the line itself - the price value which is above)
     
                     if (data.length > maxDataPoints) {
                         data.shift();
                     }
+
+                    lastPrice.value = price;
     
-                    // Update the chart
-                    myChart.update();
+                    priceChart.update();
                 }
             });
         });
