@@ -18,9 +18,13 @@
 <input id="init_dom" type="hidden" value="0"></input>
 
 <body>
-    <h1 class="semi_bolded"><u>Live Crypto Prices in real time:</u></h1>
-    <div id="coin_list">
-    </div>
+    <h1 class="semi_bolded"><u>Real Time Crypto Prices</u></h1>
+    <div id="coins_prices_container"><table><thead><tr>
+        <th>Coin</th>
+        <th>Price</th>
+        <th>Graph</th>
+    </tr></thead><tbody id="coin_list"></tbody><tfoot id="table_footer"><tr><td></td><td >Loading coins...</td><td></td></tr></tfoot></table></div>
+    
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
         // delete previous cookies and init
@@ -60,15 +64,21 @@
             for (let coin_name in prices) {
                 const last_price = getCookie(coin_name);
                 if (last_price === "") {
-                    document.getElementById('coin_list').innerHTML += `<br/><div id="${coin_name}" class="price"><a href="/live_plot?requested_coin=${coin_name}">
-                        ${coin_name.charAt(0).toUpperCase() + coin_name.substring(1)}</a>: 
-                        <span id="${coin_name}-price">${prices[coin_name]} $</span>
+                    document.getElementById('coin_list').innerHTML += `<tr id="${coin_name}" class="price"><td>
+                        ${coin_name.charAt(0).toUpperCase() + coin_name.substring(1)}</td> 
+                        <td><span id="${coin_name}-price">${prices[coin_name]} $ (USD)</span></td>
+                        <td><a href="/live_plot?requested_coin=${coin_name}" style="text-decoration:none;"><button class="spinning_btn"><span>Let's go!</span><span>LIVE</span></button></a></td>
+                        </tr>
                         </div>`;
                 }
                 // TO-DO: still some color-updating issues, sometimes it works, sometimes doesn't
                 else {
                     document.getElementById(coin_name+'-price').style.color = last_price < prices[coin_name] ? '#66ff33' : '#ff1a1a;';
                     document.getElementById(coin_name+'-price').textContent =  Number(parseFloat(prices[coin_name]).toFixed(2)).toLocaleString("en-US") + ' $ (USD)' ;
+                    if (document.getElementById('init_dom').value < 2 && document.cookie.split(';').length + 1 == 6) { // Currently our API supports only 7 types of coins...
+                        document.getElementById('table_footer').innerHTML = '';
+                        document.getElementById('init_dom').value = '2';
+                    }
                 }
                 setCookie(coin_name, prices[coin_name], 0.15);
             }
