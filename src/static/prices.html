@@ -25,18 +25,42 @@
     <div id="cardano" class="price">Cardano: <span id="cardano-price">Loading...</span></div>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        function getCookie(cname) {
+            let name = cname + "=";
+            let ca = decodeURIComponent(document.cookie).split(';');
+            let c;
+            for(let i = 0; i <ca.length; i++) {
+                c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(cname + "=") == 0) {
+                    return c.substring(cname.length + 1, c.length);
+                }
+            }
+            return "";
+        }
+
+        function setCookie(cname, cvalue, hours_to_expire) {
+            const d = new Date();
+            d.setTime(d.getTime() + (hours_to_expire*60*60*1000));
+            document.cookie = cname + "=" + cvalue + ";" + "expires="+ d.toUTCString() + ";path=/";
+        }
+
         const socket = io('http://localhost:3000');
-        const coin_initialized = {};
+        // const coin_inits = {}; // replaced with cookies
         socket.on('prices', (prices) => {
             for (let price in prices) {
-                if (coin_initialized[price] && document.getElementById(price+'-price').textContent.substring(1) < prices[price]) {
+                // TO-DO: fix color change, it sticks to the initial color
+                if (getCookie(price) !== "" && getCookie(price) < prices[price]) {
                     document.getElementById(price+'-price').style = 'color: #66ff33;';
                 }
                 else {
                     document.getElementById(price+'-price').style = 'color: #ff1a1a;';
                 }
                 document.getElementById(price+'-price').textContent =  Number(parseFloat(prices[price]).toFixed(2)).toLocaleString("en-US") + ' $ (USD)' ;
-                coin_initialized[price] = true;
+                // coin_inits[price] = true; // replaced with:
+                setCookie(price, prices[price], 0.15);
             }
         });
     </script>
