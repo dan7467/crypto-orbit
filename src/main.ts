@@ -35,7 +35,7 @@ async function bootstrap() {
 
     await app.listen(port);
 
-    console.log('\n# Server started on port',port,':\nhttp://localhost:'+port+'\n');
+    console.log('\n# Server started on port',port,': http://localhost:'+port+'\n');
 }
 
 bootstrap();

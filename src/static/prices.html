@@ -15,16 +15,24 @@
     </div>
 </div>
 
+<input id="init_dom" type="hidden" value="0"></input>
+
 <body>
     <h1 class="semi_bolded"><u>Live Crypto Prices in real time:</u></h1>
-    <div id="bitcoin" class="price"><a href="/btc">Bitcoin</a>: <span id="bitcoin-price">Loading...</span></div>
-    <div id="ethereum" class="price"><a href="/ethereum">Ethereum</a>: <span id="ethereum-price">Loading...</span></div>
-    <div id="monero" class="price">Monero: <span id="monero-price">Loading...</span></div>
-    <div id="litecoin" class="price">Litecoin: <span id="litecoin-price">Loading...</span></div>
-    <div id="tether" class="price">Tether: <span id="tether-price">Loading...</span></div>
-    <div id="cardano" class="price">Cardano: <span id="cardano-price">Loading...</span></div>
+    <div id="coin_list">
+    </div>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script>
+        // delete previous cookies and init
+        if (document.getElementById('init_dom').value === '0') {
+            document.cookie.split(';').forEach(cookie => {
+                const eqPos = cookie.indexOf('=');
+                const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
+                document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT';
+            });
+            document.getElementById('init_dom').value = '1';
+        }
+
         function getCookie(cname) {
             let ca = decodeURIComponent(document.cookie).split(';');
             let c;
@@ -49,17 +57,20 @@
         const socket = io('http://localhost:3000');
         // const coin_inits = {}; // replaced with cookies
         socket.on('prices', (prices) => {
-            for (let price in prices) {
-                // TO-DO: fix color change, it sticks to the initial color
-                if (getCookie(price) !== "" && getCookie(price) < prices[price]) {
-                    document.getElementById(price+'-price').style = 'color: #66ff33;';
+            for (let coin_name in prices) {
+                const last_price = getCookie(coin_name);
+                if (last_price === "") {
+                    document.getElementById('coin_list').innerHTML += `<br/><div id="${coin_name}" class="price"><a href="/${coin_name}">
+                        ${coin_name.charAt(0).toUpperCase() + coin_name.substring(1)}</a>: 
+                        <span id="${coin_name}-price">${prices[coin_name]} $</span>
+                        </div>`;
                 }
+                // TO-DO: still some color-updating issues, sometimes it works, sometimes doesn't
                 else {
-                    document.getElementById(price+'-price').style = 'color: #ff1a1a;';
+                    document.getElementById(coin_name+'-price').style.color = last_price < prices[coin_name] ? '#66ff33' : '#ff1a1a;';
+                    document.getElementById(coin_name+'-price').textContent =  Number(parseFloat(prices[coin_name]).toFixed(2)).toLocaleString("en-US") + ' $ (USD)' ;
                 }
-                document.getElementById(price+'-price').textContent =  Number(parseFloat(prices[price]).toFixed(2)).toLocaleString("en-US") + ' $ (USD)' ;
-                // coin_inits[price] = true; // replaced with:
-                setCookie(price, prices[price], 0.15);
+                setCookie(coin_name, prices[coin_name], 0.15);
             }
         });
     </script>
