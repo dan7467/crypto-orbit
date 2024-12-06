@@ -34,10 +34,14 @@
     <input id="last_price" type="hidden" value="0"></input>
     
     <script>
+
+        // TO-DO: Generify this whole page to apply to every coin:
+        //                                                         // receive 'coin_name' as a parameter and have generic URL
+
         const socket = io('http://localhost:3000');
         const coin_name = 'bitcoin';
         const data = [];
-        const maxDataPoints = 150; // Max points shown on the graph at any time
+        const max_graph_len = 150;
         const coin_initialized = {};
         let lastPrice = document.getElementById('last_price');
     
@@ -106,7 +110,7 @@
 
                     // TO-DO: add price color-changing (not the line itself - the price value which is above)
     
-                    if (data.length > maxDataPoints) {
+                    if (data.length > max_graph_len) {
                         data.shift();
                     }
 
@@ -118,7 +122,7 @@
         });
     </script>
     
-
+    <button onclick="history.back()"><b>Back to prices</b></button>
 
 </body>
 </html>
