@@ -60,7 +60,7 @@
             for (let coin_name in prices) {
                 const last_price = getCookie(coin_name);
                 if (last_price === "") {
-                    document.getElementById('coin_list').innerHTML += `<br/><div id="${coin_name}" class="price"><a href="/${coin_name}">
+                    document.getElementById('coin_list').innerHTML += `<br/><div id="${coin_name}" class="price"><a href="/live_plot?requested_coin=${coin_name}">
                         ${coin_name.charAt(0).toUpperCase() + coin_name.substring(1)}</a>: 
                         <span id="${coin_name}-price">${prices[coin_name]} $</span>
                         </div>`;

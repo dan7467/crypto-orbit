@@ -22,9 +22,7 @@
 
 <body>
 
-
-    <div id="bitcoin" class="price" style="font-size: 34px;">Bitcoin = <span id="bitcoin-price">Loading...</span></div>
-
+    <div id="coin_title_and_price"></div>
     <canvas id="barChart" width="700" height="250"></canvas>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon"></script>
@@ -32,13 +30,18 @@
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     
     <script>
-
-        // TO-DO: Generify this whole page to apply to every coin: receive 'coin_name' as a parameter and have generic URL
-
         const socket = io('http://localhost:3000');
-        const coin_name = 'bitcoin';
+        var params = new URLSearchParams(window.location.search);
+        const coin_name = params.get('requested_coin');
         const data = [];
         const max_graph_len = 150;
+
+        if (coin_name !== "") {
+            document.getElementById('coin_title_and_price').innerHTML = `<div id="${coin_name}" class="price" style="font-size: 34px;">${coin_name.charAt(0).toUpperCase()}${coin_name.substring(1)} = <span id="${coin_name}-price">Loading...</span></div>`;
+        }
+        else {
+            document.getElementById('coin_title_and_price').innerText = "An Error has occured, please go back and try again!";
+        }
 
         function getCookie(cname) {
             let ca = decodeURIComponent(document.cookie).split(';');
@@ -69,7 +72,7 @@
                 type: 'line',
                 data: {
                     datasets: [{
-                        label: 'Bitcoin Price ($)',
+                        label: coin_name.charAt(0).toUpperCase()+coin_name.substring(1)+' Price ($)',
                         borderWidth: 2,
                         radius: 0,
                         data: data,

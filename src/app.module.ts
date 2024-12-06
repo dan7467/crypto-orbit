@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { CryptoGateway, BTCGateway } from './crypto.gateway';
+import { CryptoGateway } from './crypto.gateway';
 
 @Module({
-    providers: [CryptoGateway, BTCGateway],
+    providers: [CryptoGateway],
 })
 
 export class AppModule {}

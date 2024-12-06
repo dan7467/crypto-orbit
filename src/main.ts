@@ -32,6 +32,10 @@ async function bootstrap() {
     app.getHttpAdapter().get('/ethereum', (req: Request, res: Response) => {
         res.sendFile(join(__dirname, '..', 'src', 'static', 'ethereum.html'));
     });
+    
+    app.getHttpAdapter().get('/live_plot', (req: Request, res: Response) => {
+        res.sendFile(join(__dirname, '..', 'src', 'static', 'coin_plotter.html'));
+    });
 
     await app.listen(port);
 
