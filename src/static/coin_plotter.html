@@ -42,7 +42,9 @@
         else {
             document.getElementById('coin_title_and_price').innerText = "An Error has occured, please go back and try again!";
         }
-
+        Date.prototype.timeNow = function () {
+            return ((this.getHours() < 10)?"0":"") + this.getHours() +":"+ ((this.getMinutes() < 10)?"0":"") + this.getMinutes() +":"+ ((this.getSeconds() < 10)?"0":"") + this.getSeconds();
+        }
         function getCookie(cname) {
             let ca = decodeURIComponent(document.cookie).split(';');
             let c;
@@ -121,8 +123,7 @@
 
                     elem.textContent = `${Number(price).toLocaleString("en-US")} $ (USD)`;
 
-                    // TO-DO: fix timestamp, it's wrong
-                    data.push({ x: new Date().getTime() / 1000, y: parseFloat(price) });
+                    data.push({ x: new Date().timeNow(), y: parseFloat(price) });
 
                     const lastPrice = parseFloat(getCookie(coin_name)).toFixed(2);
 
